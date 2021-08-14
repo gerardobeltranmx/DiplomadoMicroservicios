@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,14 +18,15 @@ namespace WebAPIArticulos.Controllers
         // GET: api/<ArticulosController>
         [HttpGet]
         public ActionResult Get()
+
         {
             Datos Db = new Datos();
 
-            var Resultados = Db.Articulos.ToList();
-
+           var Resultados = Db.Articulos.Include("Familia").ToList();
             return Ok(Resultados);
         }
 
+       /* 
         // GET api/<ArticulosController>/5
         [HttpGet("{id}")]
         public string Get(int id)
@@ -49,5 +51,6 @@ namespace WebAPIArticulos.Controllers
         public void Delete(int id)
         {
         }
+    */
     }
 }

@@ -9,7 +9,7 @@ using WebAPIArticulos.Db;
 namespace WebAPIArticulos.Migrations
 {
     [DbContext(typeof(Datos))]
-    [Migration("20210814063617_01")]
+    [Migration("20210814170024_01")]
     partial class _01
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,6 +36,9 @@ namespace WebAPIArticulos.Migrations
                     b.Property<int>("Existencia")
                         .HasColumnType("int");
 
+                    b.Property<int>("FamiliaId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("PrecioCompra")
                         .HasColumnType("decimal(18,2)");
 
@@ -44,7 +47,35 @@ namespace WebAPIArticulos.Migrations
 
                     b.HasKey("ArticuloId");
 
+                    b.HasIndex("FamiliaId");
+
                     b.ToTable("Articulos");
+                });
+
+            modelBuilder.Entity("WebAPIArticulos.Models.Familia", b =>
+                {
+                    b.Property<int>("FamiliaId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Descripcion")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("FamiliaId");
+
+                    b.ToTable("Familia");
+                });
+
+            modelBuilder.Entity("WebAPIArticulos.Models.Articulo", b =>
+                {
+                    b.HasOne("WebAPIArticulos.Models.Familia", "Familia")
+                        .WithMany()
+                        .HasForeignKey("FamiliaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Familia");
                 });
 #pragma warning restore 612, 618
         }

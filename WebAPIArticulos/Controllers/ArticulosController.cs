@@ -5,7 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebAPIArticulos.Db;
 
-
+/// <summary>
+/// 
+/// </summary>
 namespace WebAPIArticulos.Controllers
 {
     [Route("api/[controller]")]

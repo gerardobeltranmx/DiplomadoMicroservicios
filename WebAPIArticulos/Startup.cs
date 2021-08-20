@@ -27,6 +27,19 @@ namespace WebAPIArticulos
         public void ConfigureServices(IServiceCollection services)
         {
 
+            // Creamos la regla de acceso a la API
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll",
+                    builder => builder.AllowAnyMethod()
+                                      .AllowAnyHeader()
+                                      .SetIsOriginAllowed(_ => true)
+                                      //.AllowAnyOrigin().
+                                      .AllowCredentials());
+            });
+
+
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -45,6 +58,10 @@ namespace WebAPIArticulos
             }
 
             app.UseHttpsRedirection();
+            // Aplica la regla
+
+            app.UseCors("AllowAll");
+
 
             app.UseRouting();
 

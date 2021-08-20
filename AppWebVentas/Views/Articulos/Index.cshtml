@@ -5,3 +5,75 @@
 }
 
 <h1>Lista de Articulos</h1>
+<!-- Div de la aplicacion para Vue  -->
+<div id="app">
+
+    <div id="div_carga">
+        <img src="https://i.pinimg.com/originals/4e/b6/97/4eb697b60cf8d2ac12de99e12a444362.gif" />
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>ID</th>
+                <th>Descripción</th>
+                <th>Precio Venta</th>
+                <th>Precio Compra</th>
+                <th>Descuento</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="(item, index) in Articulos">
+                <td> {{index + 1}}</td>
+                <td> {{item.descripcion}}</td>
+                <td> {{item.existencia}}</td>
+                <td> {{item.precioVenta}}</td>
+                <td> {{item.precioCompra}}</td>
+                <td> {{item.descuento}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<!-- Fin de App Vue -->
+
+@section Scripts{
+
+    <script>
+var app = new Vue({
+            el: '#app',
+            data: {
+                Articulos: [],
+                ID: 0,
+                descripcion: "",
+                precioVenta: 0,
+                index: 0
+
+            },
+            created: function () {
+                this.obtenerArticulos();
+            },
+    methods: {
+        obtenerArticulos: function () {
+            var vm = this;
+
+            $.ajax({
+                url: "http://apiweb001.southcentralus.azurecontainer.io/api/Articulos",
+                method: "GET",
+                dataType: 'JSON'
+            }).done(function (resultado) {
+                $("#div_carga").hide();
+
+                vm.Articulos = resultado;
+
+            });
+
+
+        }
+    }
+
+
+});
+
+</script>
+}
